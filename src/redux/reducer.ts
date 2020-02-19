@@ -31,6 +31,7 @@ const INITIAL_STATE: BooksReducerState = {
   books: [],
   bookDetails: emptyBook,
   bookEdit: emptyBook,
+  bookNew: emptyBook,
   loading: false
 };
 
@@ -64,13 +65,43 @@ export default function booksReducer(state: BooksReducerState = INITIAL_STATE, a
         loading: false,
         [action.stateName]: action.book
       }
-    case types.UPDATE_BOOK:
+    case types.UPDATE_BOOK_EDIT:
       return {
         ...state,
         bookEdit: {
           ...state.bookEdit,
           [action.attrName]: action.value
         }
+      }
+    case types.UPDATE_BOOK_NEW:
+      return {
+        ...state,
+        bookNew: {
+          ...state.bookNew,
+          [action.attrName]: action.value
+        }
+      }
+    case types.PERSIST_BOOK_PENDING:
+      return {
+        ...state,
+        loading: true
+      }
+    case types.PERSIST_BOOK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        bookEdit: emptyBook
+      }
+    case types.CREATE_BOOK_PENDING:
+      return {
+        ...state,
+        loading: true
+      }
+    case types.CREATE_BOOK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        bookNew: emptyBook
       }
     default:
       return state;

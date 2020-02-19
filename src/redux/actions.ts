@@ -3,13 +3,16 @@ import {
   Book,
   AppThunk,
   AddDummyAction,
-  UpdateBookAction,
+  UpdateBookEditAction,
+  UpdateBookNewAction,
   FetchBookListPendingAction,
   FetchBookListSuccessAction,
   FetchBookPendingAction,
   FetchBookSuccessAction,
   PersistBookPendingAction,
-  PersistBookSuccessAction } from '../types';
+  PersistBookSuccessAction,
+  CreateBookPendingAction,
+  CreateBookSuccessAction } from '../types';
 import * as types from './constants';
 
 export function addDummyBook(): AddDummyAction {
@@ -18,9 +21,17 @@ export function addDummyBook(): AddDummyAction {
   }
 }
 
-export function updateBook(attrName: string, value: string): UpdateBookAction {
+export function updateBookEdit(attrName: string, value: string): UpdateBookEditAction {
   return {
-    type: types.UPDATE_BOOK,
+    type: types.UPDATE_BOOK_EDIT,
+    attrName,
+    value
+  }
+}
+
+export function updateBookNew(attrName: string, value: string): UpdateBookNewAction {
+  return {
+    type: types.UPDATE_BOOK_NEW,
     attrName,
     value
   }
@@ -75,6 +86,34 @@ export function persistBook(book: Book): AppThunk<Promise<PersistBookSuccessActi
     return fetch(request)
       .then((response) => response.json())
       .then(() => dispatch(persistBookSuccess()))
+      .catch((error) => console.log(error));
+  }
+}
+
+// createBook
+function createBookPending(): CreateBookPendingAction { return { type: types.CREATE_BOOK_PENDING } }
+function createBookSuccess(): CreateBookSuccessAction { return { type: types.CREATE_BOOK_SUCCESS } }
+export function createBook(book: Book): AppThunk<Promise<Book | void>> {
+  return (dispatch: Dispatch<Action<string>>) => {
+    dispatch(createBookPending());
+
+    const url = `http://localhost:4730/books`;
+
+    const request = new Request(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(book)
+    });
+
+    return fetch(request)
+      .then((response) => response.json())
+      .then((book: Book) => {
+        dispatch(createBookSuccess());
+        return book;
+      })
       .catch((error) => console.log(error));
   }
 }

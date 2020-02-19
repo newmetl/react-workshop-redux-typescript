@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Link } from 'react-router-dom';
 import BookListItem from '../components/BookListItem';
 import * as actions from '../redux/actions';
 import { BooksReducerState } from '../types';
@@ -37,6 +38,7 @@ const BookList: React.FC<Props> = ({ books, addDummyBook, fetchBookList }) => {
           ))
         }
       </ul>
+      <Link to="/books/new">New Book</Link>
     </div>
   );
 }

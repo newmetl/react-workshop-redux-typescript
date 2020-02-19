@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { History } from 'history';
 import { match } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
-import { fetchBook, updateBook, persistBook } from '../redux/actions';
+import { fetchBook, updateBookEdit, persistBook } from '../redux/actions';
 import { BooksReducerState } from '../types';
 import BookForm from '../components/BookForm';
 
@@ -11,7 +11,7 @@ const mapStateToProps = (state: BooksReducerState) => ({
 	bookDetails: state.bookDetails
 });
 
-const connector = connect(mapStateToProps, { fetchBook, updateBook, persistBook });
+const connector = connect(mapStateToProps, { fetchBook, updateBookEdit, persistBook });
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 type Props = PropsFromRedux & {
@@ -22,7 +22,7 @@ type Props = PropsFromRedux & {
 }
 
 const BookEdit: React.FC<Props> = (props) => {
-	const { history, updateBook, fetchBook, persistBook, book, bookDetails, match: { params: { isbn } } } = props;
+	const { history, updateBookEdit, fetchBook, persistBook, book, bookDetails, match: { params: { isbn } } } = props;
 
 	useEffect(() => {
 		fetchBook(isbn, 'bookDetails');
@@ -30,7 +30,7 @@ const BookEdit: React.FC<Props> = (props) => {
 	}, [fetchBook, isbn]);
 
 	function handleOnChange(attrName: string, value: string) {
-		updateBook(attrName, value);
+		updateBookEdit(attrName, value);
 	}
 
 	function handleOnSubmit() {

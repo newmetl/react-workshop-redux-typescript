@@ -3,6 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import BookList from './container/BookList';
 import BookDetails from './container/BookDetails';
 import BookEdit from './container/BookEdit';
+import BookNew from './container/BookNew';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <main>
         <Switch>
           <Route path="/books/:isbn/edit" component={BookEdit} />
+          <Route path="/books/new" component={BookNew} />
           <Route path="/books/:isbn" component={BookDetails} />
           <Route path="/books" render={() => <BookList color="red" />} />
           <Route path="/">
