@@ -1,9 +1,10 @@
-import React, { useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect } from 'react';
 import { History } from 'history';
 import { match } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { fetchBook, updateBook, persistBook } from '../redux/actions';
 import { BooksReducerState } from '../types';
+import BookForm from '../components/BookForm';
 
 const mapStateToProps = (state: BooksReducerState) => ({
 	book: state.bookEdit,
@@ -28,12 +29,11 @@ const BookEdit: React.FC<Props> = (props) => {
 		fetchBook(isbn, 'bookEdit');
 	}, [fetchBook, isbn]);
 
-	function handleInputChanged(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-		updateBook(event.target.name, event.target.value);
+	function handleOnChange(attrName: string, value: string) {
+		updateBook(attrName, value);
 	}
 
-	function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
-		event.preventDefault();
+	function handleOnSubmit() {
 		persistBook(book)
 			.then(() => history.push(`/books/${book.isbn}`));
 	}
@@ -43,19 +43,7 @@ const BookEdit: React.FC<Props> = (props) => {
 			<h2>Edit {bookDetails.title}</h2>
 			{
 				book ? (
-					<form onSubmit={handleFormSubmit}>
-						<div>
-							<label>Title:
-								<input type="text" name="title" value={book.title} onChange={handleInputChanged} />
-							</label>
-						</div>
-						<div>
-							<label>Abstract:
-								<textarea name="subtitle" value={book.subtitle} onChange={handleInputChanged} />
-							</label>
-						</div>
-						<input type="submit" value="save" />
-					</form>
+					<BookForm book={book} onChange={handleOnChange} onSubmit={handleOnSubmit} />
 				) : <div>Loading...</div>
 			}
 		</div>
