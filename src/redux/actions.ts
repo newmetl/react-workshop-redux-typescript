@@ -61,7 +61,7 @@ export function persistBook(book: Book): AppThunk<Promise<PersistBookSuccessActi
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch(persistBookPending());
 
-    const url = `http://localhost:4730/books/${book.isbn}`
+    const url = `http://localhost:4730/books/${book.isbn}`;
 
     const request = new Request(url, {
       headers: {

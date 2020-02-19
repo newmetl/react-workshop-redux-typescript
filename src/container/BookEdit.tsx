@@ -28,7 +28,7 @@ const BookEdit: React.FC<Props> = (props) => {
 		fetchBook(isbn, 'bookEdit');
 	}, [fetchBook, isbn]);
 
-	function handleInputChanged(event: ChangeEvent<HTMLInputElement>) {
+	function handleInputChanged(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
 		updateBook(event.target.name, event.target.value);
 	}
 
@@ -51,7 +51,7 @@ const BookEdit: React.FC<Props> = (props) => {
 						</div>
 						<div>
 							<label>Abstract:
-								<textarea name="abstract" value={book.abstract} />
+								<textarea name="subtitle" value={book.subtitle} onChange={handleInputChanged} />
 							</label>
 						</div>
 						<input type="submit" value="save" />
