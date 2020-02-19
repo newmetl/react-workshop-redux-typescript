@@ -23,7 +23,7 @@ type Props = PropsFromRedux & {
 
 const BookEdit: React.FC<Props> = (props) => {
 	const { history, updateBook, fetchBook, persistBook, book, bookDetails, match: { params: { isbn } } } = props;
-	console.log(props);
+
 	useEffect(() => {
 		fetchBook(isbn, 'bookDetails');
 		fetchBook(isbn, 'bookEdit');
