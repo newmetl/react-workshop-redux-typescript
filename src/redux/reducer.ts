@@ -1,7 +1,7 @@
 import * as types from './constants';
-import { BooksReducerState, BooksReducerAction } from '../types';
+import { Book, BooksReducerState, BooksReducerAction } from '../types';
 
-const dummyBook = {
+const dummyBook: Book = {
 	title: "string",
 	subtitle: "string",
 	isbn: "string",
