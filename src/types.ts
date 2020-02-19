@@ -23,7 +23,8 @@ export interface RootState {
 
 export interface BooksReducerState {
 	books: Book[],
-	loading: boolean
+	bookDetails?: Book,
+	loading: boolean,
 }
 
 export interface AddDummyAction extends Action<typeof types.ADD_DUMMY> {}
@@ -32,6 +33,12 @@ export interface FetchBookListSuccessAction extends Action<typeof types.FETCH_BO
 	books: Book[]
 }
 
-export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction;
+export interface FetchBookPendingAction extends Action<typeof types.FETCH_BOOK_PENDING> {}
+export interface FetchBookSuccessAction extends Action<typeof types.FETCH_BOOK_SUCCESS> {
+	book: Book
+}
+
+
+export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, BooksReducerState, unknown, Action<string>>;

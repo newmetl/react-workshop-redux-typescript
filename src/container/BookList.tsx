@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import BookListItem from '../components/BookListItem';
-import { Book } from '../types';
 import * as actions from '../redux/actions';
 import { BooksReducerState } from '../types';
 

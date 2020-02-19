@@ -38,6 +38,17 @@ export default function booksReducer(state: BooksReducerState = INITIAL_STATE, a
         loading: false,
         books: action.books
       }
+    case types.FETCH_BOOK_PENDING:
+      return {
+        ...state,
+        loading: true
+      }
+    case types.FETCH_BOOK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        bookDetails: action.book
+      }
     default:
       return state;
   }
