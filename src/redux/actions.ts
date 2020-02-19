@@ -3,6 +3,7 @@ import {
   Book,
   AppThunk,
   AddDummyAction,
+  UpdateBookAction,
   FetchBookListPendingAction,
   FetchBookListSuccessAction,
   FetchBookPendingAction,
@@ -12,6 +13,14 @@ import * as types from './constants';
 export function addDummyBook(): AddDummyAction {
   return {
     type: types.ADD_DUMMY
+  }
+}
+
+export function updateBook(attrName: string, value: string): UpdateBookAction {
+  return {
+    type: types.UPDATE_BOOK,
+    attrName,
+    value
   }
 }
 
@@ -31,14 +40,14 @@ export function fetchBookList(): AppThunk<Promise<FetchBookListSuccessAction | v
 
 // fetchBook
 function fetchBookPending(): FetchBookPendingAction { return { type: types.FETCH_BOOK_PENDING }}
-function fetchBookSuccess(book: Book): FetchBookSuccessAction { return { type: types.FETCH_BOOK_SUCCESS, book }}
-export function fetchBook(isbn: string): AppThunk<Promise<FetchBookSuccessAction | void>> {
+function fetchBookSuccess(book: Book, stateName: string): FetchBookSuccessAction { return { type: types.FETCH_BOOK_SUCCESS, book, stateName }}
+export function fetchBook(isbn: string, stateName: string): AppThunk<Promise<FetchBookSuccessAction | void>> {
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch(fetchBookPending());
 
     return fetch(`http://localhost:4730/books/${isbn}`)
       .then((response) => response.json())
-      .then((book: Book) => dispatch(fetchBookSuccess(book)))
+      .then((book: Book) => dispatch(fetchBookSuccess(book, stateName)))
       .catch((error) => console.log(error));
   }
 }

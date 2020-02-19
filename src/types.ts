@@ -7,7 +7,7 @@ export interface Book {
 	subtitle: string,
 	isbn: string,
 	abstract: string,
-	numPages: number,
+	numPages: number | undefined,
 	author: string,
 	publisher: {
 		name: string,
@@ -23,11 +23,16 @@ export interface RootState {
 
 export interface BooksReducerState {
 	books: Book[],
-	bookDetails?: Book,
+	bookDetails: Book,
+	bookEdit: Book,
 	loading: boolean,
 }
 
 export interface AddDummyAction extends Action<typeof types.ADD_DUMMY> {}
+export interface UpdateBookAction extends Action<typeof types.UPDATE_BOOK> {
+	attrName: string,
+	value: string
+}
 export interface FetchBookListPendingAction extends Action<typeof types.FETCH_BOOK_LIST_PENDING> {}
 export interface FetchBookListSuccessAction extends Action<typeof types.FETCH_BOOK_LIST_SUCCESS> {
 	books: Book[]
@@ -35,10 +40,11 @@ export interface FetchBookListSuccessAction extends Action<typeof types.FETCH_BO
 
 export interface FetchBookPendingAction extends Action<typeof types.FETCH_BOOK_PENDING> {}
 export interface FetchBookSuccessAction extends Action<typeof types.FETCH_BOOK_SUCCESS> {
-	book: Book
+	book: Book,
+	stateName: string,
 }
 
 
-export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction
+export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction | UpdateBookAction
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, BooksReducerState, unknown, Action<string>>;

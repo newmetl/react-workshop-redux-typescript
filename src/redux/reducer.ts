@@ -14,8 +14,23 @@ const dummyBook: Book = {
 	}
 }
 
+const emptyBook: Book = {
+	title: "",
+	subtitle: "",
+	isbn: "",
+	abstract: "",
+	numPages: undefined,
+	author: "",
+	publisher: {
+		name: "",
+		url: ""
+	}
+}
+
 const INITIAL_STATE: BooksReducerState = {
   books: [],
+  bookDetails: emptyBook,
+  bookEdit: emptyBook,
   loading: false
 };
 
@@ -47,7 +62,15 @@ export default function booksReducer(state: BooksReducerState = INITIAL_STATE, a
       return {
         ...state,
         loading: false,
-        bookDetails: action.book
+        [action.stateName]: action.book
+      }
+    case types.UPDATE_BOOK:
+      return {
+        ...state,
+        bookEdit: {
+          ...state.bookEdit,
+          [action.attrName]: action.value
+        }
       }
     default:
       return state;

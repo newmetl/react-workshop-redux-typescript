@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { match, Link } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { fetchBook } from '../redux/actions';
 import { BooksReducerState } from '../types';
@@ -11,16 +12,16 @@ const connector = connect(mapStateToProps, { fetchBook });
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 type Props = PropsFromRedux & {
-	match: any
+	match: match<{
+		isbn: string
+	}>
 }
 
 const BookDetails: React.FC<Props> = ({ fetchBook, book,  match: { params: { isbn } } }) => {
 
 	useEffect(() => {
-		fetchBook(isbn);
+		fetchBook(isbn, 'bookDetails');
 	}, [fetchBook, isbn]);
-
-	console.log('BookDetails: ', book);
 
 	return (
 		<div>
@@ -30,6 +31,7 @@ const BookDetails: React.FC<Props> = ({ fetchBook, book,  match: { params: { isb
 					<div>
 						<h3>{book.title}</h3>
 						<h5>{book.subtitle}</h5>
+						<Link to={`/books/${book.isbn}/edit`}>Edit</Link>
 					</div>
 				) : <div>Loading...</div>
 			}
