@@ -55,7 +55,10 @@ export interface PersistBookSuccessAction extends Action<typeof types.PERSIST_BO
 export interface CreateBookPendingAction extends Action<typeof types.CREATE_BOOK_PENDING> { }
 export interface CreateBookSuccessAction extends Action<typeof types.CREATE_BOOK_SUCCESS> { }
 
+export interface DeleteBookPendingAction extends Action<typeof types.DELETE_BOOK_PENDING> { }
+export interface DeleteBookSuccessAction extends Action<typeof types.DELETE_BOOK_SUCCESS> { }
 
-export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction | UpdateBookEditAction | UpdateBookNewAction | CreateBookPendingAction | CreateBookSuccessAction | PersistBookPendingAction | PersistBookSuccessAction
+
+export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction | UpdateBookEditAction | UpdateBookNewAction | CreateBookPendingAction | CreateBookSuccessAction | PersistBookPendingAction | PersistBookSuccessAction | DeleteBookPendingAction | DeleteBookSuccessAction
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, BooksReducerState, unknown, Action<string>>;

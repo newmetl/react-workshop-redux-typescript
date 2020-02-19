@@ -12,7 +12,9 @@ import {
   PersistBookPendingAction,
   PersistBookSuccessAction,
   CreateBookPendingAction,
-  CreateBookSuccessAction } from '../types';
+  CreateBookSuccessAction,
+  DeleteBookPendingAction,
+  DeleteBookSuccessAction } from '../types';
 import * as types from './constants';
 
 export function addDummyBook(): AddDummyAction {
@@ -113,6 +115,33 @@ export function createBook(book: Book): AppThunk<Promise<Book | void>> {
       .then((book: Book) => {
         dispatch(createBookSuccess());
         return book;
+      })
+      .catch((error) => console.log(error));
+  }
+}
+
+// deleteBook
+function deleteBookPending(): DeleteBookPendingAction { return { type: types.DELETE_BOOK_PENDING } }
+function deleteBookSuccess(): DeleteBookSuccessAction { return { type: types.DELETE_BOOK_SUCCESS } }
+export function deleteBook(isbn: string): AppThunk<Promise<void>> {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(deleteBookPending());
+
+    const url = `http://localhost:4730/books/${isbn}`;
+
+    const request = new Request(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'DELETE'
+    });
+
+    return fetch(request)
+      .then((response) => response.json())
+      .then(() => {
+        dispatch(deleteBookSuccess())
+        dispatch(fetchBookList())
       })
       .catch((error) => console.log(error));
   }

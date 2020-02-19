@@ -17,7 +17,7 @@ type Props = PropsFromRedux & {
   color: string;
 }
 
-const BookList: React.FC<Props> = ({ books, addDummyBook, fetchBookList }) => {
+const BookList: React.FC<Props> = ({ books, addDummyBook, fetchBookList, deleteBook }) => {
 
   useEffect(() => {
     fetchBookList();
@@ -27,6 +27,10 @@ const BookList: React.FC<Props> = ({ books, addDummyBook, fetchBookList }) => {
     addDummyBook();
   }
 
+  const handleDeleteBook = (isbn: string) => {
+    deleteBook(isbn);
+  }
+
 	return (
     <div>
       <h2>Books</h2>
@@ -34,7 +38,7 @@ const BookList: React.FC<Props> = ({ books, addDummyBook, fetchBookList }) => {
       <ul>
         {
           books.map((book, index) => (
-            <BookListItem key={index} {...book} />
+            <BookListItem key={index} {...book} onDelete={handleDeleteBook} />
           ))
         }
       </ul>

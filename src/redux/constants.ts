@@ -9,3 +9,5 @@ export const PERSIST_BOOK_PENDING = 'bookManagerApp/booksReducder/PERSIST_BOOK_P
 export const PERSIST_BOOK_SUCCESS = 'bookManagerApp/booksReducder/PERSIST_BOOK_SUCCESS';
 export const CREATE_BOOK_PENDING = 'bookManagerApp/booksReducder/CREATE_BOOK_PENDING';
 export const CREATE_BOOK_SUCCESS = 'bookManagerApp/booksReducder/CREATE_BOOK_SUCCESS';
+export const DELETE_BOOK_PENDING = 'bookManagerApp/booksReducder/DELETE_BOOK_PENDING';
+export const DELETE_BOOK_SUCCESS = 'bookManagerApp/booksReducder/DELETE_BOOK_SUCCESS';
