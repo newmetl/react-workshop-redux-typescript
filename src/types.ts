@@ -44,6 +44,9 @@ export interface FetchBookSuccessAction extends Action<typeof types.FETCH_BOOK_S
 	stateName: string,
 }
 
+export interface PersistBookPendingAction extends Action<typeof types.PERSIST_BOOK_PENDING> { }
+export interface PersistBookSuccessAction extends Action<typeof types.PERSIST_BOOK_SUCCESS> { }
+
 
 export type BooksReducerAction = AddDummyAction | FetchBookListPendingAction | FetchBookListSuccessAction | FetchBookPendingAction | FetchBookSuccessAction | UpdateBookAction
 

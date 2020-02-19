@@ -7,7 +7,9 @@ import {
   FetchBookListPendingAction,
   FetchBookListSuccessAction,
   FetchBookPendingAction,
-  FetchBookSuccessAction } from '../types';
+  FetchBookSuccessAction,
+  PersistBookPendingAction,
+  PersistBookSuccessAction } from '../types';
 import * as types from './constants';
 
 export function addDummyBook(): AddDummyAction {
@@ -48,6 +50,31 @@ export function fetchBook(isbn: string, stateName: string): AppThunk<Promise<Fet
     return fetch(`http://localhost:4730/books/${isbn}`)
       .then((response) => response.json())
       .then((book: Book) => dispatch(fetchBookSuccess(book, stateName)))
+      .catch((error) => console.log(error));
+  }
+}
+
+// persistBook
+function persistBookPending(): PersistBookPendingAction { return { type: types.PERSIST_BOOK_PENDING } }
+function persistBookSuccess(): PersistBookSuccessAction { return { type: types.PERSIST_BOOK_SUCCESS } }
+export function persistBook(book: Book): AppThunk<Promise<PersistBookSuccessAction | void>> {
+  return (dispatch: Dispatch<Action<string>>) => {
+    dispatch(persistBookPending());
+
+    const url = `http://localhost:4730/books/${book.isbn}`
+
+    const request = new Request(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(book)
+    });
+
+    return fetch(request)
+      .then((response) => response.json())
+      .then(() => dispatch(persistBookSuccess()))
       .catch((error) => console.log(error));
   }
 }

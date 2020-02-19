@@ -1,7 +1,8 @@
-import React, { useEffect, ChangeEvent } from 'react';
+import React, { useEffect, ChangeEvent, FormEvent } from 'react';
+import { History } from 'history';
 import { match } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
-import { fetchBook, updateBook } from '../redux/actions';
+import { fetchBook, updateBook, persistBook } from '../redux/actions';
 import { BooksReducerState } from '../types';
 
 const mapStateToProps = (state: BooksReducerState) => ({
@@ -9,17 +10,19 @@ const mapStateToProps = (state: BooksReducerState) => ({
 	bookDetails: state.bookDetails
 });
 
-const connector = connect(mapStateToProps, { fetchBook, updateBook });
+const connector = connect(mapStateToProps, { fetchBook, updateBook, persistBook });
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 type Props = PropsFromRedux & {
 	match: match<{
 		isbn: string
-	}>
+	}>,
+	history: History
 }
 
-const BookEdit: React.FC<Props> = ({ updateBook, fetchBook, book, bookDetails, match: { params: { isbn } } }) => {
-
+const BookEdit: React.FC<Props> = (props) => {
+	const { history, updateBook, fetchBook, persistBook, book, bookDetails, match: { params: { isbn } } } = props;
+	console.log(props);
 	useEffect(() => {
 		fetchBook(isbn, 'bookDetails');
 		fetchBook(isbn, 'bookEdit');
@@ -29,12 +32,18 @@ const BookEdit: React.FC<Props> = ({ updateBook, fetchBook, book, bookDetails, m
 		updateBook(event.target.name, event.target.value);
 	}
 
+	function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		persistBook(book)
+			.then(() => history.push(`/books/${book.isbn}`));
+	}
+
 	return (
 		<div>
 			<h2>Edit {bookDetails.title}</h2>
 			{
 				book ? (
-					<form>
+					<form onSubmit={handleFormSubmit}>
 						<div>
 							<label>Title:
 								<input type="text" name="title" value={book.title} onChange={handleInputChanged} />
@@ -45,6 +54,7 @@ const BookEdit: React.FC<Props> = ({ updateBook, fetchBook, book, bookDetails, m
 								<textarea name="abstract" value={book.abstract} />
 							</label>
 						</div>
+						<input type="submit" value="save" />
 					</form>
 				) : <div>Loading...</div>
 			}

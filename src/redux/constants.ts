@@ -4,3 +4,5 @@ export const FETCH_BOOK_LIST_PENDING = 'bookManagerApp/booksReducder/FETCH_BOOK_
 export const FETCH_BOOK_LIST_SUCCESS = 'bookManagerApp/booksReducder/FETCH_BOOK_LIST_SUCCESS';
 export const FETCH_BOOK_PENDING = 'bookManagerApp/booksReducder/FETCH_BOOK_PENDING';
 export const FETCH_BOOK_SUCCESS = 'bookManagerApp/booksReducder/FETCH_BOOK_SUCCESS';
+export const PERSIST_BOOK_PENDING = 'bookManagerApp/booksReducder/PERSIST_BOOK_PENDING';
+export const PERSIST_BOOK_SUCCESS = 'bookManagerApp/booksReducder/PERSIST_BOOK_SUCCESS';
